@@ -89,7 +89,7 @@ final class Pickle_Countdown {
      */
     public function enqueue_scripts_styles() {
         wp_register_script( 'jquery-countdown-script', PICKLE_COUNTDOWN_URL . 'js/jquery.countdown.min.js', array( 'jquery' ), '2.2.0', true );
-        wp_register_script( 'pickle-countdown-timer-settings-script', PICKLE_COUNTDOWN_URL . 'js/timerSettings.js', array( 'jquery-countdown-script' ), $this->version, true );
+        wp_register_script( 'pickle-countdown-timer-settings-script', PICKLE_COUNTDOWN_URL . 'js/timerSettings.min.js', array( 'jquery-countdown-script' ), $this->version, true );
     }
 
     /**
@@ -100,13 +100,15 @@ final class Pickle_Countdown {
      * @return html
      */
     public function shortcode( $atts ) {
-        $atts = shortcode_atts( array(
-            'date' => '2020/01/01',
-            'format' => '%D days %H:%M:%S',
-        ), $atts, 'pickle-countdown' );
-        
-        $date = date('Y/m/d', strtotime($atts['date']));
-        $format = apply_filters('pickle_countdown_format', $atts['format'], $atts);
+        $atts = shortcode_atts(
+            array(
+                'date' => '2020/01/01',
+                'format' => '%D days %H:%M:%S',
+            ), $atts, 'pickle-countdown'
+        );
+
+        $date = date( 'Y/m/d', strtotime( $atts['date'] ) );
+        $format = apply_filters( 'pickle_countdown_format', $atts['format'], $atts );
 
         wp_localize_script(
             'pickle-countdown-timer-settings-script', 'pcTimerOptions', array(
