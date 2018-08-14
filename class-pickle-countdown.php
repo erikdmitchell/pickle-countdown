@@ -105,11 +105,12 @@ final class Pickle_Countdown {
             'format' => '%D days %H:%M:%S',
         ), $atts, 'pickle-countdown' );
         
+        $date = date('Y/m/d', strtotime($atts['date']));
         $format = apply_filters('pickle_countdown_format', $atts['format'], $atts);
 
         wp_localize_script(
             'pickle-countdown-timer-settings-script', 'pcTimerOptions', array(
-                'date' => $atts['date'],
+                'date' => $date,
                 'format' => $format,
             )
         );
