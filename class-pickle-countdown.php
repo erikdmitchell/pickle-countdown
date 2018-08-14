@@ -100,37 +100,17 @@ final class Pickle_Countdown {
      * @return html
      */
     public function shortcode( $atts ) {
-        shortcode_atts(
-            array(
-                'date' => '2020/01/01',
-                'format' => '<div class="boomi-countdown">
-			<div>
-				<div class="count-number">%D</div>
-				<div class="count-text">DAYS</div>
-			</div>
-			<span>:</span>
-			<div>
-				<div class="count-number">%H</div>
-				<div class="count-text">HOURS</div>
-			</div>
-			<span>:</span>
-			<div>
-				<div class="count-number">%M</div>
-				<div class="count-text">MINUTES</div>
-			</div>
-			<span>:</span>
-			<div>
-				<div class="count-number">%S</div>
-				<div class="count-text">SECONDS</div>
-			</div>
-		</div>',
-            ), $atts, 'pickle-countdown'
-        );
+        $atts = shortcode_atts( array(
+            'date' => '2020/01/01',
+            'format' => '%D days %H:%M:%S',
+        ), $atts, 'pickle-countdown' );
+        
+        $format = apply_filters('pickle_countdown_format', $atts['format'], $atts);
 
         wp_localize_script(
             'pickle-countdown-timer-settings-script', 'pcTimerOptions', array(
                 'date' => $atts['date'],
-                'format' => $atts['format'],
+                'format' => $format,
             )
         );
 
@@ -138,7 +118,6 @@ final class Pickle_Countdown {
 
         $html .= '<div id="pickle-countdown">';
             $html .= '<div class="timer"></div>';
-            $html .= '<div class="text">' . $text . '</div>';
         $html .= '</div>';
 
         wp_enqueue_script( 'jquery-countdown-script' );
