@@ -11,22 +11,29 @@ var buildInclude = [
         '**/*.eot',
         '**/*.woff',
         '**/*.woff2',
-
+        '**/*.png',
+        
         // include specific files and folders
         'screenshot.png',
+        'readme.txt',
 
         // exclude files and folders
-        '!node_modules/**/*',
-        '!style.css.map',
-        '!assets/js/custom/*',
-        '!assets/css/patrials/*'
-
+        '!./composer.json', 
+        '!./composer.lock',
+        '!./gulpfile.js',
+        '!./{node_modules,node_modules/**/*}',
+        '!./package.json',
+        '!./phpcs.ruleset.xml',
+        '!./{sass,sass/**/*}',
+        '!./.stylelintrc',
+        '!./{vendor,vendor/**/*}',
+        '!svn/**'
     ];
     
 var phpSrc = [
         '**/*.php', // Include all files    
-        '!node_modules/**/*', // Exclude node_modules/
-        '!vendor/**' // Exclude vendor/    
+        '!node_modules/**/*', // Exclude node_modules
+        '!vendor/**' // Exclude vendor   
     ];
 
 var cssInclude = [
@@ -62,7 +69,7 @@ var gulp = require('gulp'),
     rename = require('gulp-rename'),
     concat = require('gulp-concat'),
     notify = require('gulp-notify'),
-    runSequence = require('gulp-run-sequence'),
+    runSequence = require('run-sequence'),
     sass = require('gulp-sass'),
     plugins = require('gulp-load-plugins')({
         camelize: true
@@ -74,9 +81,12 @@ var gulp = require('gulp'),
     jshint = require('gulp-jshint'), // JSHint plugin
     stylish = require('jshint-stylish'), // JSHint Stylish plugin
     stylelint = require('gulp-stylelint'), // stylelint plugin
-    phpcs = require('gulp-phpcs'); // Gulp plugin for running PHP Code Sniffer.
-    phpcbf = require('gulp-phpcbf'); // PHP Code Beautifier
-    gutil = require('gulp-util'); // gulp util
+    phpcs = require('gulp-phpcs'), // Gulp plugin for running PHP Code Sniffer.
+    phpcbf = require('gulp-phpcbf'), // PHP Code Beautifier
+    gutil = require('gulp-util'), // gulp util
+    zip = require('gulp-zip'), // gulp zip
+    beautify = require('gulp-jsbeautifier'),
+    cssbeautify = require('gulp-cssbeautify');
 
 /**
  * Styles
@@ -134,7 +144,14 @@ gulp.task('lintcss', function lintCssTask() {
         {formatter: 'string', console: true}
       ]
     }));
-});	
+});
+
+// make pretty
+gulp.task('beautifycss', () =>
+    gulp.src(cssInclude)
+        .pipe(cssbeautify())
+        .pipe(gulp.dest('./'))
+);	
 
 /**
  * Scripts
@@ -157,23 +174,29 @@ gulp.task('lintjs', function() {
     .pipe(jshint.reporter(stylish));
 });
 
-/*
-gulp.task('scripts', function () {
-    return gulp.src('./js/*.js')
-        .pipe(concat('custom.js'))
-        .pipe(gulp.dest('./assets/js'))
+// combine scripts into one file and min it.
+gulp.task('scriptscombine', function () {
+    return gulp.src(jsInclude)
+        .pipe(concat('scripts.js'))
+        .pipe(gulp.dest('./inc/js'))
         .pipe(rename({
-            basename: "custom",
+            basename: "scripts",
             suffix: '.min'
         }))
         .pipe(uglify())
-        .pipe(gulp.dest('./assets/js/'))
+        .pipe(gulp.dest('./inc/js/'))
         .pipe(notify({
-            message: 'Custom scripts task complete',
+            message: 'Scripts combined',
             onLast: true
         }));
 });
-*/
+
+// make pretty
+gulp.task('beautifyjs', () =>
+    gulp.src(jsInclude)
+        .pipe(beautify())
+        .pipe(gulp.dest('./'))
+);
 
 /**
  * PHP
@@ -204,16 +227,17 @@ gulp.task('phpcbf', function () {
 });
 
 // ==== TASKS ==== //
-/**
- * Gulp Default Task
- *
- * Compiles styles, watches js and php files.
- *
- */
 
-// Package Distributable - sort of
+// gulp zip
+gulp.task('zip', function () {
+  return gulp.src(buildInclude)
+    .pipe(zip('pickle-countdown.zip'))
+    .pipe(gulp.dest('./../'));
+});  
+
+// Package Distributable
 gulp.task('build', function (cb) {
-    runSequence('styles', 'scripts', cb);
+    runSequence('styles', 'scripts', 'zip', cb);
 });
 
 // Styles task

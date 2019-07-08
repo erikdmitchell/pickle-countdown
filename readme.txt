@@ -1,11 +1,11 @@
 === Pickle Countdown ===
 Contributors: erikdmitchell
-Author URI: 
-Plugin URL: 
-Requires at Least: 3.7
-Tested Up To: 4.8.1
-Tags: 
-Stable tag: 1.0.0
+Tags: calendar, events, responsive
+Requires at least: 3.8
+Tested up to: 5.2.2
+Stable tag: 1.1.0
+License: GPLv2 or later
+License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
 A simple and easy way to implement a countdown into your site.
 
@@ -18,6 +18,9 @@ A simple and easy way to implement a countdown into your site.
 == Other Notes ==
 
 == Changelog ==
+
+= 1.1.0 =
+* Cleaned up and updated code.
 
 = 1.0.0 =
 * First release.
