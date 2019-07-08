@@ -104,14 +104,18 @@ final class Pickle_Countdown {
             array(
                 'date' => '2020/01/01',
                 'format' => '%D days %H:%M:%S',
-            ), $atts, 'pickle-countdown'
+            ),
+            $atts,
+            'pickle-countdown'
         );
 
         $date = date( 'Y/m/d', strtotime( $atts['date'] ) );
         $format = apply_filters( 'pickle_countdown_format', $atts['format'], $atts );
 
         wp_localize_script(
-            'pickle-countdown-timer-settings-script', 'pcTimerOptions', array(
+            'pickle-countdown-timer-settings-script',
+            'pcTimerOptions',
+            array(
                 'date' => $date,
                 'format' => $format,
             )
