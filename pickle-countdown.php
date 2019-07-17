@@ -1,9 +1,9 @@
 <?php
 /**
  * Plugin Name: Pickle Countdown
- * Plugin URI:
+ * Plugin URI: https://github.com/erikdmitchell/pickle-countdown
  * Description: A simple and easy way to implement a countdown into your site.
- * Version: 1.0.0
+ * Version: 1.1.0
  * Author: Erik Mitchell
  * Author URI:
  * License: GPL-2.0+
