@@ -65,7 +65,7 @@ final class Pickle_Countdown {
     private function init_hooks() {
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
         
-        add_filter( 'block_categories', array( $this, 'block_categories' ), 10, 2 );
+        //add_filter( 'block_categories', array( $this, 'block_categories' ), 10, 2 );
         
         add_shortcode( 'pickle_countdown', array( $this, 'shortcode' ) );
     }
