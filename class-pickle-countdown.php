@@ -45,8 +45,8 @@ final class Pickle_Countdown {
         define( 'PICKLE_COUNTDOWN_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PICKLE_COUNTDOWN_URL', plugin_dir_url( __FILE__ ) );
         define( 'PICKLE_COUNTDOWN_VERSION', $this->version );
-        define( 'PICKLE_COUNTDOWN_BLOCK_PATH', plugin_dir_path( __FILE__ ) );
-        define( 'PICKLE_COUNTDOWN_BLOCK_URL', plugin_dir_url( __FILE__ ) );
+        define( 'PICKLE_COUNTDOWN_BLOCK_PATH', plugin_dir_path( __FILE__ ) . 'block/' );
+        define( 'PICKLE_COUNTDOWN_BLOCK_URL', plugin_dir_url( __FILE__ ) . 'block/' );
     }
 
     /**
@@ -56,7 +56,7 @@ final class Pickle_Countdown {
      * @return void
      */
     public function includes() {
-        include_once( TRU_GUTENBERG_BLOCKS_PATH . 'block/index.php' );
+        include_once( PICKLE_COUNTDOWN_BLOCK_PATH . 'index.php' );
     }   
 
     /**
@@ -133,7 +133,7 @@ final class Pickle_Countdown {
     public function shortcode( $atts ) {
         $atts = shortcode_atts(
             array(
-                'date' => '2020/01/01',
+                'date' => '2021/01/01',
                 'format' => '%D days %H:%M:%S',
             ),
             $atts,
