@@ -53,8 +53,8 @@ final class Pickle_Countdown {
      * @return void
      */
     public function includes() {
-
-    }
+        include_once( TRU_GUTENBERG_BLOCKS_PATH . 'block/index.php' );
+    }   
 
     /**
      * Init hooks.
@@ -64,6 +64,9 @@ final class Pickle_Countdown {
      */
     private function init_hooks() {
         add_action( 'wp_enqueue_scripts', array( $this, 'enqueue_scripts_styles' ) );
+        
+        add_filter( 'block_categories', array( $this, 'block_categories' ), 10, 2 );
+        
         add_shortcode( 'pickle_countdown', array( $this, 'shortcode' ) );
     }
 
@@ -90,7 +93,32 @@ final class Pickle_Countdown {
     public function enqueue_scripts_styles() {
         wp_register_script( 'jquery-countdown-script', PICKLE_COUNTDOWN_URL . 'js/jquery.countdown.min.js', array( 'jquery' ), '2.2.0', true );
         wp_register_script( 'pickle-countdown-timer-settings-script', PICKLE_COUNTDOWN_URL . 'js/timerSettings.min.js', array( 'jquery-countdown-script' ), $this->version, true );
-    }
+    }  
+
+    /**
+     * Custom block categories.
+     *
+     * @access public
+     * @param mixed $categories array.
+     * @param mixed $post object.
+     * @return array
+     */
+    public function block_categories( $categories, $post ) {
+        if ( 'post' !== $post->post_type ) {
+            return $categories;
+        }
+
+        return array_merge(
+            $categories,
+            array(
+                array(
+                    'slug' => 'tru',
+                    'title' => __( 'The Run Up', 'tru-gutenberg-blocks' ),
+                    'icon'  => '',
+                ),
+            )
+        );
+    } 
 
     /**
      * Shortcode output.
