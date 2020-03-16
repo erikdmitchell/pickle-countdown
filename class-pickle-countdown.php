@@ -44,6 +44,9 @@ final class Pickle_Countdown {
     private function define_constants() {
         define( 'PICKLE_COUNTDOWN_PATH', plugin_dir_path( __FILE__ ) );
         define( 'PICKLE_COUNTDOWN_URL', plugin_dir_url( __FILE__ ) );
+        define( 'PICKLE_COUNTDOWN_VERSION', $this->version );
+        define( 'PICKLE_COUNTDOWN_BLOCK_PATH', plugin_dir_path( __FILE__ ) );
+        define( 'PICKLE_COUNTDOWN_BLOCK_URL', plugin_dir_url( __FILE__ ) );
     }
 
     /**
