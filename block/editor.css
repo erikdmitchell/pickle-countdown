@@ -1,0 +1,10 @@
+.block-editor .wp-block-pickle-countdown-block {
+
+}
+.block-editor .wp-block-pickle-countdown-block .pickle-countdown {
+    padding: 5px 10px;
+    background-color: lightgray;
+}
+.block-editor .wp-block-pickle-countdown-block .pickle-countdown .timer {
+    
+}
